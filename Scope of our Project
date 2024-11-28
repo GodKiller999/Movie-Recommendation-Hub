@@ -1,0 +1,21 @@
+Project Scope: Movie Recommendation Hub
+Purpose:
+The goal of this project is to create a web-based application that helps users search for movies, stay updated with entertainment news, and discover where to stream or watch movies.
+
+Features:
+Movie Search:
+Allow users to search for movies and retrieve details like title, release year, genre, plot summary, and ratings using the OMDb API.
+
+Trending Entertainment News:
+Display the latest news related to movies and entertainment using the Mediastack API.
+
+Streaming Availability:
+Help users find where to watch movies by integrating the Utelly API, which shows streaming platforms offering the movie.
+
+Target Audience:
+Movie enthusiasts looking for quick information on movies and where to watch them.
+General users interested in entertainment news.
+Technical Scope:
+Frontend: Built with HTML, CSS, and JavaScript for a responsive and user-friendly interface.
+APIs: Integration with OMDb, Mediastack, and Utelly APIs for dynamic content.
+Deployment: Hosted using platforms like GitHub Pages, Netlify, or Heroku.
