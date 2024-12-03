@@ -1,0 +1,95 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333333;
+}
+
+/* Grid Layout for Streams */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Card Styling */
+.card {
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Thumbnail Styling */
+.poster {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+}
+
+/* Title Styling */
+.title {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.title:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Video Details Styling */
+.video-details {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.video-details h2 {
+    font-size: 24px;
+    color: #555555;
+}
+
+.video-details a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.video-details a:hover {
+    color: #0056b3;
+}
+
+/* Error Message Styling */
+.error {
+    color: #ff4c4c;
+    text-align: center;
+    font-weight: bold;
+}
