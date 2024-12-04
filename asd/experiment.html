@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Experiment</title>
+</head>
+<body>
+    <h1>API Experiment</h1>
+    <h2>Platforms</h2>
+    <ul id="platforms"></ul>
+    <h2>Games (September 2019)</h2>
+    <ul id="games"></ul>
+
+    <script>
+        const API_KEY = '61f96040b9544c2b81078d0b60f32911';
+        const PLATFORMS_URL = `https://api.rawg.io/api/platforms?key=${API_KEY}`;
+        const GAMES_URL = `https://api.rawg.io/api/games?key=${API_KEY}&dates=2019-09-01,2019-09-30&platforms=18,1,7`;
+
+        async function fetchData(url) {
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
+
+        async function displayPlatforms() {
+            const data = await fetchData(PLATFORMS_URL);
+            const platformsList = document.getElementById('platforms');
+            platformsList.innerHTML = '';
+
+            if (data && data.results) {
+                data.results.forEach(platform => {
+                    const li = document.createElement('li');
+                    li.textContent = platform.name;
+                    platformsList.appendChild(li);
+                });
+            } else {
+                platformsList.innerHTML = '<li>Failed to load platforms.</li>';
+            }
+        }
+
+        async function displayGames() {
+            const data = await fetchData(GAMES_URL);
+            const gamesList = document.getElementById('games');
+            gamesList.innerHTML = '';
+
+            if (data && data.results) {
+                data.results.forEach(game => {
+                    const li = document.createElement('li');
+                    li.textContent = `${game.name} (Released: ${game.released || 'Unknown'})`;
+                    gamesList.appendChild(li);
+                });
+            } else {
+                gamesList.innerHTML = '<li>Failed to load games.</li>';
+            }
+        }
+
+        // Fetch and display platforms and games on page load
+        displayPlatforms();
+        displayGames();
+    </script>
+</body>
+</html>

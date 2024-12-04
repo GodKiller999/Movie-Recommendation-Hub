@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaming News</title>
+</head>
+<body>
+    <h1>Latest News</h1>
+    <ul id="news-list"></ul>
+    <p id="error-message" style="color: red;"></p> <!-- For showing error messages -->
+
+    <script>
+        const API_KEY = '673805baffd048909f40e60ef7b3b08e';  // Your API Key
+        const NEWS_API_URL = `https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${API_KEY}`;
+
+        async function fetchNews() {
+            try {
+                const response = await fetch(NEWS_API_URL);
+                const data = await response.json();
+
+                // Debugging: Log the full data to check the response
+                console.log(data);
+
+                if (data.status === "ok" && data.articles && data.articles.length > 0) {
+                    const newsList = document.getElementById('news-list');
+                    newsList.innerHTML = ''; // Clear previous news
+
+                    data.articles.forEach(article => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<strong><a href="${article.url}" target="_blank">${article.title}</a></strong><p>${article.description}</p>`;
+                        newsList.appendChild(li);
+                    });
+                } else {
+                    document.getElementById('error-message').textContent = 'No news found or an error occurred.';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                document.getElementById('error-message').textContent = 'Failed to fetch news. Please try again later.';
+            }
+        }
+
+        // Fetch news on page load
+        fetchNews();
+    </script>
+</body>
+</html>
