@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game API</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-panel">
+            <h1>API Experiment</h1>
+            <h2>Platforms</h2>
+            <ul id="platforms"></ul>
+            <h2>Games on that date</h2>
+            <ul id="games"></ul>
+        </div>
+        <div class="right-panel">
+            <h1>Game Library</h1>
+            <table id="game-library">
+                <!-- Games will be inserted here --> 
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const API_KEY = '0593aa6d50554203868e7f729c48062c';
+        const PLATFORMS_URL = `https://api.rawg.io/api/platforms?key=${API_KEY}`;
+        const GAMES_URL = `https://api.rawg.io/api/games?key=${API_KEY}&dates=2017-01-01,2018-12-31&platforms=18,1,7`;
+        const LIBRARY_URL = `https://api.rawg.io/api/games?key=${API_KEY}`;
+
+        // Fetch data from a URL
+        async function fetchData(url) {
+            try {
+                console.log(`Fetching URL: ${url}`);
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log('Data fetched:', data);
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return null;
+            }
+        }
+
+        // Display platforms
+        async function displayPlatforms() {
+            const data = await fetchData(PLATFORMS_URL);
+            const platformsList = document.getElementById('platforms');
+            platformsList.innerHTML = '';
+
+            if (data && data.results) {
+                data.results.forEach(platform => {
+                    const li = document.createElement('li');
+                    li.textContent = platform.name;
+                    platformsList.appendChild(li);
+                });
+            } else {
+                platformsList.innerHTML = '<li>Failed to load platforms. Please try again later.</li>';
+            }
+        }
+
+        // Display games from September 2019
+        async function displayGames() {
+            const data = await fetchData(GAMES_URL);
+            const gamesList = document.getElementById('games');
+            gamesList.innerHTML = '';
+
+            if (data && data.results) {
+                data.results.forEach(game => {
+                    const li = document.createElement('li');
+                    li.textContent = `${game.name} (Released: ${game.released || 'Unknown'})`;
+                    gamesList.appendChild(li);
+                });
+            } else {
+                gamesList.innerHTML = '<li>Failed to load games. Please try again later.</li>';
+            }
+        }
+
+        // Display a random game library in a 3x3 table
+        async function displayGameLibrary() {
+            const data = await fetchData(LIBRARY_URL);
+            const gameLibrary = document.getElementById('game-library');
+            gameLibrary.innerHTML = ''; // Clear existing content
+
+            if (data && data.results) {
+                const randomGames = data.results.sort(() => 0.5 - Math.random()).slice(0, 9);
+                let tableContent = '<tr>';
+                randomGames.forEach((game, index) => {
+                    const imageUrl = game.background_image || 'https://via.placeholder.com/150';
+                    tableContent += `
+                        <td>
+                            <img src="${imageUrl}" alt="${game.name}" class="game-image">
+                            <p>${game.name}</p>
+                        </td>
+                    `;
+                    if ((index + 1) % 3 === 0) tableContent += '</tr><tr>';
+                });
+                tableContent += '</tr>';
+                gameLibrary.innerHTML = tableContent;
+            } else {
+                gameLibrary.innerHTML = '<tr><td colspan="3">Failed to load game library. Please try again later.</td></tr>';
+            }
+        }
+
+        // Fetch and display data on page load
+        displayPlatforms();
+        displayGames();
+        displayGameLibrary();
+    </script>
+</body>
+</html>
