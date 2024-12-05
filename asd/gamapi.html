@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game API</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Assuming styles.css exists -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
@@ -12,28 +12,30 @@
             <h1>API Experiment</h1>
             <h2>Platforms</h2>
             <ul id="platforms"></ul>
-            <h2>Games (September 2019)</h2>
+            <h2>Games on that date</h2>
             <ul id="games"></ul>
         </div>
         <div class="right-panel">
             <h1>Game Library</h1>
             <table id="game-library">
-                <!-- Games will be inserted here -->
+                <!-- Games will be inserted here --> 
             </table>
         </div>
     </div>
 
     <script>
-        const API_KEY = '61f96040b9544c2b81078d0b60f32911';
+        const API_KEY = '0593aa6d50554203868e7f729c48062c';
         const PLATFORMS_URL = `https://api.rawg.io/api/platforms?key=${API_KEY}`;
-        const GAMES_URL = `https://api.rawg.io/api/games?key=${API_KEY}&dates=2019-09-01,2019-09-30&platforms=18,1,7`;
+        const GAMES_URL = `https://api.rawg.io/api/games?key=${API_KEY}&dates=2017-01-01,2018-12-31&platforms=18,1,7`;
         const LIBRARY_URL = `https://api.rawg.io/api/games?key=${API_KEY}`;
 
         // Fetch data from a URL
         async function fetchData(url) {
             try {
+                console.log(`Fetching URL: ${url}`);
                 const response = await fetch(url);
                 const data = await response.json();
+                console.log('Data fetched:', data);
                 return data;
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -54,7 +56,7 @@
                     platformsList.appendChild(li);
                 });
             } else {
-                platformsList.innerHTML = '<li>Failed to load platforms.</li>';
+                platformsList.innerHTML = '<li>Failed to load platforms. Please try again later.</li>';
             }
         }
 
@@ -71,7 +73,7 @@
                     gamesList.appendChild(li);
                 });
             } else {
-                gamesList.innerHTML = '<li>Failed to load games.</li>';
+                gamesList.innerHTML = '<li>Failed to load games. Please try again later.</li>';
             }
         }
 
@@ -82,13 +84,13 @@
             gameLibrary.innerHTML = ''; // Clear existing content
 
             if (data && data.results) {
-                // Randomize and limit to 9 games
                 const randomGames = data.results.sort(() => 0.5 - Math.random()).slice(0, 9);
                 let tableContent = '<tr>';
                 randomGames.forEach((game, index) => {
+                    const imageUrl = game.background_image || 'https://via.placeholder.com/150';
                     tableContent += `
                         <td>
-                            <img src="${game.background_image}" alt="${game.name}" class="game-image">
+                            <img src="${imageUrl}" alt="${game.name}" class="game-image">
                             <p>${game.name}</p>
                         </td>
                     `;
@@ -97,7 +99,7 @@
                 tableContent += '</tr>';
                 gameLibrary.innerHTML = tableContent;
             } else {
-                gameLibrary.innerHTML = '<tr><td colspan="3">Failed to load game library.</td></tr>';
+                gameLibrary.innerHTML = '<tr><td colspan="3">Failed to load game library. Please try again later.</td></tr>';
             }
         }
 
